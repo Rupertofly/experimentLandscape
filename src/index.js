@@ -1,5 +1,5 @@
-import "./sketch/crazyMod";
-import {crazyNess} from "./sketch/crazyMod.js";
+import './sketch/crazyMod';
+import {crazyNess} from './sketch/crazyMod.js';
 
 let x, y, backgroundColor, esp;
 
@@ -11,6 +11,7 @@ let s = new p5(s => true);
 
 s.setup = function () {
   console.log(crazyNess);
+    // noinspection Annotator
   s.createCanvas(width, height, s.webGL);
   backgroundColor = s.color(s.random(255), s.random(255), s.random(255));
 
@@ -31,8 +32,8 @@ s.draw = function draw() {
     s.beginShape();
     poly.map(point => s.vertex(point[0], point[1]));
     s.endShape(s.CLOSE)
-  })
-  s.filter(s.BLUR, 3.6)
+  });
+    s.filter(s.BLUR, 3.6);
 };
 
 s.mousePressed = function mousePressed() {
