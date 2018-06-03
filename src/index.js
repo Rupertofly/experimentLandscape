@@ -30,12 +30,12 @@ s.draw = function draw() {
   crazyNess( s );
   x = ( x + 1 ) % width;
   s.noFill();
+  s.strokeWeight( 3 );
   esp.map( poly => {
     s.beginShape();
     poly.map( point => s.vertex( point[0], point[1] ) );
     s.endShape( s.CLOSE );
   } );
-  s.filter( s.BLUR, 3.6 );
 };
 
 s.mousePressed = function mousePressed() {
