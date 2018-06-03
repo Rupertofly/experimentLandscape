@@ -1,0 +1,14 @@
+{
+  "extends": ["semistandard", "p5js", "prettier"],
+  "rules": {
+    "no-undef": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "setup|draw|preload|p5Canvas0"
+      }
+    ],
+    "space-in-parens": ["error", "always"],
+    "new-cap": "off"
+  }
+}

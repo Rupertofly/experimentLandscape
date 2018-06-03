@@ -8,9 +8,25 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@types/d3": "^5.0.0",
+    "b-spline": "^2.0.1",
+    "eslint": "^4.19.1",
     "p5": "^0.5.9"
   },
   "devDependencies": {
+    "@types/d3": "^5.0.0",
+    "ccapture.js": "^1.0.9",
+    "d3": "^5.0.0",
+    "eslint": "^4.19.0",
+    "eslint-config-p5js": "^1.0.1",
+    "eslint-config-semistandard": "^12.0.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "firebase": "^4.12.1",
     "webpack": "^2.5.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
