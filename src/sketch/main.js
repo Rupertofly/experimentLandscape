@@ -15,7 +15,12 @@ export function setup() {
 }
 
 export function draw() {
-  if ( frameCount % 20 === 5 ) vm.fSim.restart();
+  if ( frameCount % 120 === 5 ) {
+    vm.fSim.restart();
+    vm.fSim.alphaTarget( 0.1 );
+    vm.fSim.alpha( vm.fSim.alpha() + 0.1 );
+  }
+  console.log( vm.fSim.alpha() );
   background( getC( 5, 4 ).hex );
   if ( vm.activePoints.length > 1 ) vm.fSim.tick();
   vm.regenerateMesh();
@@ -33,8 +38,10 @@ export function draw() {
     let polyPoint = vm.outerMesh.cells[i].site.data;
     let c = polyPoint.class;
     fill( getC( c * 2, 3 ).hex );
-
-    ellipse( polyPoint[0], polyPoint[1], 15 );
+    stroke( getC( c * 2, 3 ).hex );
+    beginShape();
+    poly.map( p => vertex( p[0], p[1] ) );
+    endShape();
   } );
 }
 

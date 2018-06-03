@@ -28,9 +28,17 @@ export default class VorManagement {
     this.innerPolys = [];
     this.outerPolys = [];
     this.fSim = d3.forceSimulation( this.activePoints );
-    let fc = d3.forceManyBody().strength( 1 );
+    let fc = d3
+      .forceManyBody()
+      .strength( 500 )
+      .distanceMin( 100 );
     this.fSim.force( 'charge', fc );
-    this.fSim.force( 'forceX', d3.forceX( this.width / 2 ).strength( 10 ) );
+    let fr = d3
+      .forceManyBody()
+      .strength( -500 )
+      .distanceMax( 120 );
+    this.fSim.force( 'repel', fr );
+    this.fSim.force( 'forceX', d3.forceX( this.width / 2 ).strength( 0.01 ) );
     this.fSim.stop();
     // Create begining graphs
     this.innerMap = d3.voronoi().size( [this.width, this.height] );
@@ -128,5 +136,7 @@ export default class VorManagement {
       id: hash( random( 100 ) )
     } );
     this.fSim.nodes( this.activePoints );
+    this.fSim.restart();
+    this.fSim.alpha( 1 );
   }
 }
