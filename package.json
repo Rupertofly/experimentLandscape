@@ -2,16 +2,19 @@
   "name": "p5jsboiler",
   "version": "0.5.0",
   "main": "src/index.js",
+  "description": "My boilerplate p5js repo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rupertofly/p5jsBoiler.git"
+  },
+  "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "npm run clean && webpack -p",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@types/d3": "^5.0.0",
-    "b-spline": "^2.0.1",
-    "eslint": "^4.19.1",
-    "p5": "^0.5.9"
+    "b-spline": "^2.0.1"
   },
   "devDependencies": {
     "@types/d3": "^5.0.0",

@@ -2,5 +2,10 @@
   "compilerOptions": {
     "target": "es2017"
   },
-  "include": ["node_modules/@types/**/*", "src/**/*", "typings/*"]
+  "include": [
+    "node_modules/@types/**/*",
+    "src/**/*",
+    "typings/*",
+    "node_modules/@firebase/**/*"
+  ]
 }
