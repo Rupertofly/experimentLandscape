@@ -1,2 +1,0 @@
-webpackJsonp([0],[function(o,n,r){"use strict";var a=void 0,d=void 0,c=void 0,e=new p5(function(o){return!0});e.setup=function(){e.createCanvas(500,500),c=e.color(e.random(255),e.random(255),e.random(255)),a=e.random(500),d=250},e.draw=function(){e.background(c),e.fill(e.color(255,0,0)),e.ellipse(a,d,100,100),a=(a+1)%500},e.mousePressed=function(){c=e.color(e.random(255),e.random(255),e.random(255))}}],[0]);
-//# sourceMappingURL=bundle.0580a5e8d10f3776cc05.js.map
