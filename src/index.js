@@ -1,6 +1,5 @@
 import interpolate from 'b-spline';
 import { crazyNess } from './sketch/crazyMod.js';
-import * as hp from './sketch/helperFuncs.js';
 
 let x, y, backgroundColor, esp;
 
