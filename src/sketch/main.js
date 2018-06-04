@@ -1,7 +1,7 @@
-import getC from './pallete';
-import { getRandomInt } from './helperFuncs';
-import firebase from '../../node_modules/firebase/index';
-import vorManagement from './vorManagement';
+import getC from "./pallete";
+import { getRandomInt } from "./helperFuncs";
+import firebase from "../../node_modules/firebase/index";
+import vorManagement from "./vorManagement";
 /** @type {vorManagement} */
 let vm = new vorManagement( {
   width: window.innerWidth,
@@ -20,7 +20,6 @@ export function draw() {
     vm.fSim.alphaTarget( 0.1 );
     vm.fSim.alpha( vm.fSim.alpha() + 0.1 );
   }
-  console.log( vm.fSim.alpha() );
   background( getC( 5, 4 ).hex );
   if ( vm.activePoints.length > 1 ) vm.fSim.tick();
   vm.regenerateMesh();
@@ -39,9 +38,9 @@ export function draw() {
     let c = polyPoint.class;
     fill( getC( c * 2, 3 ).hex );
     stroke( getC( c * 2, 3 ).hex );
-    beginShape();
-    poly.map( p => vertex( p[0], p[1] ) );
-    endShape();
+    if ( c === 0 ) return;
+    let cen = d3.polygonCentroid( poly );
+    ellipse( cen[0], cen[1], 30, 30 );
   } );
 }
 
