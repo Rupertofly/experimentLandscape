@@ -27,19 +27,39 @@ export default class VorManagement {
     this.fillerPoints = [];
     this.innerPolys = [];
     this.outerPolys = [];
+    this.activeEdgeGroups = [];
     this.fSim = d3.forceSimulation( this.activePoints );
-    let fc = d3
-      .forceManyBody()
-      .strength( 500 )
-      .distanceMin( 100 );
-    this.fSim.force( 'charge', fc );
+    this.fSim.alphaDecay( 0.1 );
+    this.fSim.alphaTarget( 0.3 );
+    this.fSim.velocityDecay( 0.6 );
+    this.fSim.force(
+      'repel',
+      d3
+        .forceManyBody()
+        .strength( -50 )
+        .distanceMax( 100 )
+    );
     let fr = d3
       .forceManyBody()
-      .strength( -500 )
-      .distanceMax( 120 );
-    this.fSim.force( 'repel', fr );
-    this.fSim.force( 'forceX', d3.forceX( this.width / 2 ).strength( 0.01 ) );
+      .strength( 50 )
+      .distanceMin( 30 );
+    this.fSim.force( 'charge', fr );
+    let xForce = d3
+      .forceX()
+      .x( function( d ) {
+        return d.cx;
+      } )
+      .strength( 0.1 );
+    this.fSim.force( 'xforce', xForce );
+    this.fSim.force(
+      'yforce',
+      d3
+        .forceY()
+        .y( d => d.cy )
+        .strength( 0.1 )
+    );
     this.fSim.stop();
+    this.fSim.alphaTarget( 0.05 );
     // Create begining graphs
     this.innerMap = d3.voronoi().size( [this.width, this.height] );
     this.outerMap = this.innerMap.extent( [
@@ -102,6 +122,45 @@ export default class VorManagement {
     } );
     return output;
   }
+  getActiveEdges() {
+    this.activeEdgeGroups = [];
+    let aEdges = [];
+    if ( this.activePoints.length <= 1 ) return;
+    this.outerMesh.edges.map( edge => {
+      if ( !edge.left || !edge.right ) return;
+
+      let leftIs = this.activePoints.includes( edge.left.data );
+      let rightIs = this.activePoints.includes( edge.right.data );
+      if ( leftIs ? !rightIs : rightIs ) {
+        if ( !aEdges.includes( edge[0] ) ) {
+          aEdges.push( edge[0] );
+          edge[0].n = [];
+          edge[0].n.push( edge[1] );
+        } else if ( !edge[0].n.includes( edge[1] ) ) edge[0].n.push( edge[1] );
+        if ( !aEdges.includes( edge[1] ) ) {
+          aEdges.push( edge[1] );
+          edge[1].n = [];
+          edge[1].n.push( edge[0] );
+        } else if ( !edge[1].n.includes( edge[0] ) ) edge[1].n.push( edge[0] );
+      }
+    } );
+    let fakeOutCount = 0;
+    while ( aEdges.length > 1 && fakeOutCount < 12 ) {
+      let outputGroup = [];
+      let sortP = ( point, out ) => {
+        out.push( point );
+        if ( !out.includes( point.n[0] ) ) sortP( point.n[0], out );
+        if ( !out.includes( point.n[1] ) ) sortP( point.n[1], out );
+      };
+      sortP( aEdges[0], outputGroup );
+      this.activeEdgeGroups.push( outputGroup );
+      outputGroup.map( point => {
+        aEdges.splice( aEdges.indexOf( point ), 1 );
+      } );
+      fakeOutCount++;
+    }
+    console.log( this.activeEdgeGroups );
+  }
   regenerateMesh() {
     // @ts-ignore
     this.innerMesh = this.innerMap( this.activePoints.concat( this.fillerPoints ) );
@@ -111,12 +170,15 @@ export default class VorManagement {
     );
     this.innerPolys = this.innerMesh.polygons();
     this.outerPolys = this.outerMesh.polygons();
+    this.getActiveEdges();
   }
   relaxLikeLloyd() {
     this.activePoints.map( ( p, i ) => {
       let centroid = d3.polygonCentroid( this.innerPolys[i] );
-      p[0] = centroid[0];
-      p[1] = centroid[1];
+      p.cx = centroid[0];
+      p.cy = centroid[1];
+      p[0] = ( p[0] + p.x ) / 2;
+      p[1] = ( p[1] + p.y ) / 2;
     } );
     this.fillerPoints.map( ( p, i ) => {
       let centroid = d3.polygonCentroid(
@@ -133,10 +195,11 @@ export default class VorManagement {
       class: cl,
       x: x,
       y: y,
-      id: hash( random( 100 ) )
+      cx: x,
+      cy: y,
+      id: hash( Math.random() * 100 )
     } );
     this.fSim.nodes( this.activePoints );
-    this.fSim.restart();
-    this.fSim.alpha( 1 );
+    this.getActiveEdges();
   }
 }
