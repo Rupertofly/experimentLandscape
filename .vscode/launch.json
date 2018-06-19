@@ -6,6 +6,15 @@
   "configurations": [
     {
       "type": "chrome",
+      "request": "attach",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": ["p5.*"],
+      "sourceMaps": true
+    },
+    {
+      "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome",
       "url": "http://localhost:8080",

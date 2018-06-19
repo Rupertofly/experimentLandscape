@@ -45,9 +45,9 @@ export function checkNested( obj /*, level1, level2, ... levelN */ ) {
   }
   return true;
 }
-var recorder;
-var canvasObject;
-var lastFrame = 60;
+export var recorder;
+export var canvasObject;
+export var lastFrame = 180;
 
 // For Recording
 
@@ -71,8 +71,11 @@ export function recordFrame() {
 export function recordSetup() {
   recorder = new CCapture( {
     format: 'webm',
-    framerate: 60
+    framerate: 30,
+    verbose: true
   } );
+  console.log( 'beginning record' );
+
   canvasObject = document.getElementById( 'defaultCanvas0' );
   recorder.start();
 }

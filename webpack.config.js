@@ -13,7 +13,8 @@ module.exports = {
     port: 8080,
     open: true,
     openPage: '',
-    stats: 'errors-only'
+    stats: 'errors-only',
+    disableHostCheck: true
   },
   output: {
     path: path.resolve( __dirname, 'dist' ),
@@ -27,6 +28,14 @@ module.exports = {
       {
         loader: 'babel-loader',
         test: /\.js$/
+      },
+      {
+        loader: 'raw-loader',
+        test: /\.vert$/
+      },
+      {
+        loader: 'raw-loader',
+        test: /\.frag$/
       }
     ]
   },
