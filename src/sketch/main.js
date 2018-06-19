@@ -3,13 +3,13 @@ import { voronoi, polygonCentroid } from 'd3';
 import _ from 'lodash';
 import bSpline from 'b-spline';
 import getC from './pallete';
-import {
-  recorder,
-  canvasObject,
-  lastFrame,
-  recordFrame,
-  recordSetup
-} from './helperFuncs';
+// import {
+//   recorder,
+//   canvasObject,
+//   lastFrame,
+//   recordFrame,
+//   recordSetup
+// } from './helperFuncs';
 
 let sites = [];
 let canvasExtent;
@@ -62,7 +62,7 @@ export function setup() {
     .x( site => site.x )
     .y( site => site.y );
   vorDiagram = sites.resetFunc( vorFunction, sites );
-  recordSetup();
+  // recordSetup();
 }
 export function draw() {
   background( 255, 30 );
@@ -70,18 +70,17 @@ export function draw() {
   fill( 200, 100, 100 );
   strokeWeight( 2 );
   let pGons = vorDiagram.polygons();
-  pGons.map( poly => {
-    // beginShape();
-    // fill( poly.data.c );
-    // poly.map( point => vertex( point[0], point[1] ) );
-    // endShape( CLOSE );
-  } );
+  // pGons.map( poly => {
+  // beginShape();
+  // fill( poly.data.c );
+  // poly.map( point => vertex( point[0], point[1] ) );
+  // endShape( CLOSE );
+  // } );
   strokeWeight( 3 );
   stroke( getC( 2, 2 ).hex );
   let visited = [];
   let frontier = [];
   let cameFrom = new Array( sites.length ).fill( null );
-  let splines = [];
   let first = vorDiagram.find( canvasExtent / 2, canvasExtent / 2 );
   let crackFunc = ( visitArray, frontierArray ) => {
     if ( frontierArray.length === 0 ) return;
@@ -119,7 +118,7 @@ export function draw() {
       } else {
         lineArr.push( pre.posAsArray( n ) );
         let next = pathArr[pre.i];
-        let thisI = pathArr.indexOf( pre );
+        // let thisI = pathArr.indexOf( pre );
         // pathArr[thisI] = null;
         lineCalc( next, lineArr, pathArr );
       }
@@ -142,6 +141,6 @@ export function draw() {
   } );
 
   vorDiagram = sites.resetFunc( vorFunction, sites );
-  recordFrame();
+  // recordFrame();
   filter( BLUR, 1 );
 }
