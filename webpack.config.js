@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 module.exports = {
+  mode: 'none',
   entry: {
     bundle: path.resolve( __dirname, 'src', 'index.js' )
   },
@@ -21,21 +22,24 @@ module.exports = {
     filename: '[name].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.ts']
   },
   module: {
-    loaders: [
+    rules: [
       {
-        loader: 'babel-loader',
-        test: /\.js$/
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader' },
+          {
+            loader: 'ts-loader'
+          }
+        ]
       },
       {
-        loader: 'raw-loader',
-        test: /\.vert$/
-      },
-      {
-        loader: 'raw-loader',
-        test: /\.frag$/
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [{ loader: 'babel-loader' }]
       }
     ]
   },
@@ -49,16 +53,7 @@ module.exports = {
         from: path.resolve( __dirname, 'assets' ),
         to: path.resolve( __dirname, 'dist', 'assets' )
       }
-    ] ),
-    new webpack.optimize.CommonsChunkPlugin( {
-      name: 'vendor',
-      minChunks: function( module ) {
-        return module.context && module.context.indexOf( 'node_modules' ) !== -1;
-      }
-    } ),
-    new webpack.optimize.CommonsChunkPlugin( {
-      name: 'manifest'
-    } )
+    ] )
   ],
-  devtool: 'source-map'
+  devtool: 'inline-source-map'
 };

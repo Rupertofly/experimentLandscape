@@ -1,7 +1,8 @@
 {
-  "presets": [
-    "es2015",
-    "stage-0"
-  ],
-  "compact": false
+  "presets": ["env"],
+  "compact": "false",
+  "ignore": [
+    "foo.js",
+    "bar/**/*.js"
+  ]
 }

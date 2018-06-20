@@ -3,3 +3,4 @@ import * as sketchHooks from './sketch/main';
   Object.keys( sketchHooks ).forEach( hook => {
     w[hook] = sketchHooks[hook];
   } ) )( window );
+console.log( 'boy' );
